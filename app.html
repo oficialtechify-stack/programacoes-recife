@@ -1242,7 +1242,7 @@
 
       <article class="pol-card">
         <h3><span class="live-dot" aria-hidden="true"></span>Apuração oficial — AO VIVO</h3>
-        <p id="live-status"><b>Apuração em andamento.</b> O painel abaixo é o oficial do TSE, com as parciais oficiais atualizadas em tempo real — é nele que dá para ver quem está na frente, no Brasil e por estado. Se o painel do TSE não abrir dentro do site, use o botão abaixo para abrir o portal oficial — os números que valem são os do TSE, não os da enquete da comunidade.</p>
+        <p id="live-status"><b>Apuração em andamento.</b> Os números oficiais são os do TSE, atualizados em tempo real no portal oficial — use o botão abaixo para abrir o portal. Os números que valem são os do TSE, não os da enquete da comunidade.</p>
         <div id="live-box"></div>
         <div class="live-fallback" style="border-style:solid"><b>🗳️ Quem está na frente na enquete da comunidade?</b><p style="margin:8px 0">O painel acima é o oficial do TSE. A enquete aqui do Rec Conectado é separada — vote e veja quem está na frente entre os leitores:</p><p><a class="btn primary" href="#enquete">Ver e votar na enquete ↓</a></p></div>
         <p style="margin-top:10px"><a class="btn primary" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">Portal Resultados do TSE ↗</a> <a class="btn" href="https://www.tse.jus.br" target="_blank" rel="noopener">Consultar local de votação ↗</a></p>
@@ -1504,13 +1504,12 @@
     if(now >= OPEN){
       if(!opened){
         opened = true;
-        status.innerHTML = '<b>Apuração em andamento.</b> O painel abaixo é o oficial do TSE, com as parciais oficiais atualizadas em tempo real — é nele que dá para ver quem está na frente, no Brasil e por estado. A próxima atualização desta página, com o resumo da apuração, está prevista para as <b>19h30 de hoje</b>.';
-        var f = document.createElement('iframe');
-        f.className = 'live-frame';
-        f.title = 'Apuração oficial do TSE — Eleições 2026, 2º turno';
-        f.setAttribute('loading','lazy');
-        f.src = 'https://resultados.tse.jus.br/oficial/app/index.html#/divulga/votacao-nominal';
-        box.appendChild(f);
+        status.innerHTML = '<b>Apuração em andamento.</b> Os números oficiais são os do TSE, atualizados em tempo real no portal oficial — o painel do TSE não abre dentro de outros sites, então o botão abaixo leva direto ao portal oficial.';
+        var d = document.createElement('div');
+        d.className = 'live-fallback';
+        d.style.borderStyle = 'solid';
+        d.innerHTML = '<b>📊 Números oficiais do TSE</b><p style="margin:8px 0">Veja quem está na frente no Brasil e por estado, no portal oficial:</p><p><a class="btn primary" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">Abrir Portal Resultados do TSE ↗</a></p>';
+        box.appendChild(d);
       }
     } else {
       status.innerHTML = 'A divulgação oficial da apuração começa <b>hoje, às 17h</b> (horário de Brasília), assim que as seções fecham — faltam <b>' + fmt(OPEN - now) + '</b>. Até lá, não existe nenhuma parcial oficial do 2º turno. A partir das 17h, o painel oficial do TSE aparece aqui embaixo com as parciais oficiais, e a próxima atualização desta página está prevista para as <b>19h30 de hoje</b>.';
@@ -1520,7 +1519,7 @@
   if(box && status) tick();
 })();
 </script>
-<script>(function(){var box=document.getElementById('live-box');var clock=document.getElementById('live-clock');function upd(){if(clock){var d=new Date();clock.textContent='Agora: '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}}upd();setInterval(upd,30000);var cp=document.getElementById('copy-politica-link');if(cp){cp.addEventListener('click',function(){var link='https://programacoes-recife.vercel.app/app.html#politica';function done(){cp.textContent='✅ Link copiado!';setTimeout(function(){cp.textContent='🔗 Copiar link da Política';},2500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done).catch(done);}else{var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}});}if(!box)return;setTimeout(function(){if(!box.querySelector('.live-fallback')){var d=document.createElement('div');d.className='live-fallback';d.innerHTML='<b>O painel do TSE não abriu aqui dentro?</b><p style="margin:8px 0">O TSE às vezes bloqueia o painel dentro de outros sites e deixa essa área em branco. Os números oficiais continuam valendo — abra direto no portal:</p><p><a class="btn primary" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">Abrir painel oficial do TSE ↗</a></p>';box.appendChild(d);}},9000);})();</script>
+<script>(function(){var box=document.getElementById('live-box');var clock=document.getElementById('live-clock');function upd(){if(clock){var d=new Date();clock.textContent='Agora: '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}}upd();setInterval(upd,30000);var cp=document.getElementById('copy-politica-link');if(cp){cp.addEventListener('click',function(){var link='https://programacoes-recife.vercel.app/app.html#politica';function done(){cp.textContent='✅ Link copiado!';setTimeout(function(){cp.textContent='🔗 Copiar link da Política';},2500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done).catch(done);}else{var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}});}if(!box)return;setTimeout(function(){if(false){var d=document.createElement('div');d.className='live-fallback';d.innerHTML='<b>O painel do TSE não abriu aqui dentro?</b><p style="margin:8px 0">O TSE às vezes bloqueia o painel dentro de outros sites e deixa essa área em branco. Os números oficiais continuam valendo — abra direto no portal:</p><p><a class="btn primary" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">Abrir painel oficial do TSE ↗</a></p>';box.appendChild(d);}},9000);})();</script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
