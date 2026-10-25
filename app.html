@@ -1235,6 +1235,7 @@
         <p class="sub" style="margin:0 0 4px"><b id="tse-diff">Diferença: Lula na frente por 119.028 votos</b></p>
         <p class="sub" style="margin:0 0 12px" id="tse-sections">Faltam apurar: 479.397 seções de 499.248 (96,02% ainda por apurar) · Votos válidos: 4.981.024</p>
         <p><a class="btn primary" href="#enquete">Ver quem está na frente na enquete e votar ↓</a></p>
+        <p class="sub" style="margin:12px 0 0">Apuração do Rec Conectado · <b>LeadsPay</b></p>
       </div>
     <div class="section-head"><h2>Política · Hoje é dia de decisão</h2><p>Eleições 2026 · 2º turno, hoje<br>Fontes: TSE</p></div>
 
@@ -2003,7 +2004,7 @@
       '</button>';
     }).join('');
     pollFoot.innerHTML = '<p class="poll-total">' + total + (total === 1 ? ' voto' : ' votos') + ' na enquete da comunidade até agora.</p>' +
-      (!state.user ? '<p class="poll-login">Vote direto, sem criar conta: clique numa opção abaixo. Se pedir login, é só entrar — leva menos de um minuto.</p>' : '');
+      (!state.user ? '<p class="poll-login">Clique numa opção para votar. Sem conta, o voto tenta entrar como visitante — se pedir login, entre rapidinho e o voto vai.</p>' : '');
     var lb = $('poll-login-btn');
     if(lb) lb.addEventListener('click', function(){ openAuth('login'); });
     Array.prototype.forEach.call(pollBody.querySelectorAll('[data-vote]'), function(btn){
@@ -2019,7 +2020,7 @@
         if(state.user){ if(!state.profile){ castVote(); return; } castVote(); return; }
         /* Visitante: tenta voto anônimo (sem conta, sem senha). Se o Firebase não tiver Anônimo ativado, cai para o login normal. */
         if(auth && auth.signInAnonymously){
-          auth.signInAnonymously().then(function(){ setTimeout(castVote, 300); }).catch(function(){ if(document.body.classList.contains('divulga')){ return; } if(!requireLogin()) return; });
+          auth.signInAnonymously().then(function(){ setTimeout(castVote, 300); }).catch(function(){ if(!requireLogin()) return; });
         } else { if(!requireLogin()) return; }
       });
     });
