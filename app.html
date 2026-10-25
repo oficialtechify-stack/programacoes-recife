@@ -1647,8 +1647,9 @@ body{padding-bottom:84px}
     panels.forEach(function(p){ p.hidden = p.getAttribute('data-panel') !== name; });
     window.scrollTo({top:0, behavior: REDUCED ? 'auto' : 'smooth'});
   }
+  function playUrnaSound(){ try{ var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; if(!window._urnaCtx) window._urnaCtx=new AC(); var ctx=window._urnaCtx; if(ctx.state==='suspended') ctx.resume(); var o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.frequency.value=2000; g.gain.setValueAtTime(0.0001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime+0.02); g.gain.setValueAtTime(0.18, ctx.currentTime+0.55); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.75); o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.8); }catch(e){} }
   tabBtns.forEach(function(b){
-    b.addEventListener('click', function(){ selectTab(b.getAttribute('data-tab-btn')); });
+    b.addEventListener('click', function(){ if(b.getAttribute('data-tab-btn')==='politica') playUrnaSound(); selectTab(b.getAttribute('data-tab-btn')); });
   });
   /* LINK DIRETO: app.html#politica ou app.html?tab=politica abre direto na Política */
   (function(){
