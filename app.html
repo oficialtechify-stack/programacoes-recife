@@ -657,7 +657,6 @@
   /* MODO DIVULGAÇÃO — só Política, sem login, pronto pra celular */
   body.divulga [data-tab-btn]:not([data-tab-btn="politica"]){display:none !important}
   body.divulga .topbar .authbtn, body.divulga #aa-login, body.divulga #login-open, body.divulga .auth-area{display:none !important}
-  body.divulga #auth-overlay{display:none !important}
   body.divulga .hero{display:none !important}
   body.divulga .bottomnav button:not([data-tab-btn="politica"]){display:none !important}
   body.divulga .comments-mount, body.divulga [data-tab="politica"] ~ .comments-mount{display:none !important}
@@ -2014,18 +2013,21 @@
       '</button>';
     }).join('');
     pollFoot.innerHTML = '<p class="poll-total">' + total + (total === 1 ? ' voto' : ' votos') + ' na enquete da comunidade até agora.</p>' +
-      (!state.user ? '<p class="poll-login">Clique numa opção para votar. Sem conta, o voto tenta entrar como visitante — se pedir login, entre rapidinho e o voto vai.</p>' : '');
+      (!state.user ? '<p class="poll-login">Clique numa opção para votar. Se pedir login, entre e o voto vai sozinho — sem clicar de novo.</p>' : '');
     var lb = $('poll-login-btn');
     if(lb) lb.addEventListener('click', function(){ openAuth('login'); });
     Array.prototype.forEach.call(pollBody.querySelectorAll('[data-vote]'), function(btn){
       btn.addEventListener('click', function(){
         var choice = btn.getAttribute('data-vote');
+        window.pendingVoteChoice = choice;
         function castVote(){
-          db.collection('votes').doc(state.user.uid).set({
+          var u = (auth && auth.currentUser) || state.user;
+          if(!u) return;
+          db.collection('votes').doc(u.uid).set({
             choice: choice,
             handle: (state.profile && state.profile.handle) ? state.profile.handle : 'visitante',
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          }).catch(function(){});
+          }).then(function(){ window.pendingVoteChoice = null; }).catch(function(){});
         }
         if(state.user){ if(!state.profile){ castVote(); return; } castVote(); return; }
         /* Visitante: tenta voto anônimo (sem conta, sem senha). Se o Firebase não tiver Anônimo ativado, cai para o login normal. */
@@ -3333,6 +3335,10 @@
     auth.onAuthStateChanged(function(user){
       state.user = user || null;
       state.profile = null;
+      if(user && window.pendingVoteChoice){
+        var ch = window.pendingVoteChoice;
+        db.collection('votes').doc(user.uid).set({choice: ch, handle: 'visitante', updatedAt: firebase.firestore.FieldValue.serverTimestamp()}).then(function(){ window.pendingVoteChoice = null; }).catch(function(){});
+      }
       if(!user){
         renderAuthArea(); renderAllComposers(); renderPoll(); socialOnAuth();
         return;
