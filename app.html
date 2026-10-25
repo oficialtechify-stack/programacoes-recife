@@ -1985,17 +1985,24 @@
       '</button>';
     }).join('');
     pollFoot.innerHTML = '<p class="poll-total">' + total + (total === 1 ? ' voto' : ' votos') + ' na enquete da comunidade até agora.</p>' +
-      (!state.user ? '<p class="poll-login">Para votar, <button type="button" id="poll-login-btn">entre com seu perfil</button> — leva menos de um minuto.</p>' : '');
+      (!state.user ? '<p class="poll-login">Vote direto, sem criar conta: clique numa opção abaixo. Se pedir login, é só entrar — leva menos de um minuto.</p>' : '');
     var lb = $('poll-login-btn');
     if(lb) lb.addEventListener('click', function(){ openAuth('login'); });
     Array.prototype.forEach.call(pollBody.querySelectorAll('[data-vote]'), function(btn){
       btn.addEventListener('click', function(){
-        if(!requireLogin()) return;
-        db.collection('votes').doc(state.user.uid).set({
-          choice: btn.getAttribute('data-vote'),
-          handle: state.profile.handle,
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).catch(function(){});
+        var choice = btn.getAttribute('data-vote');
+        function castVote(){
+          db.collection('votes').doc(state.user.uid).set({
+            choice: choice,
+            handle: (state.profile && state.profile.handle) ? state.profile.handle : 'visitante',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }).catch(function(){});
+        }
+        if(state.user){ if(!state.profile){ castVote(); return; } castVote(); return; }
+        /* Visitante: tenta voto anônimo (sem conta, sem senha). Se o Firebase não tiver Anônimo ativado, cai para o login normal. */
+        if(auth && auth.signInAnonymously){
+          auth.signInAnonymously().then(function(){ setTimeout(castVote, 300); }).catch(function(){ if(!requireLogin()) return; });
+        } else { if(!requireLogin()) return; }
       });
     });
   }
