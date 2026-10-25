@@ -653,6 +653,18 @@
   .live-fallback{border:1px dashed var(--line2);border-radius:14px;padding:16px;margin-top:12px;background:var(--card)}
   .live-fallback b{font-size:17px}
 
+
+  /* MODO DIVULGAÇÃO — só Política, sem login, pronto pra celular */
+  body.divulga [data-tab-btn]:not([data-tab-btn="politica"]){display:none !important}
+  body.divulga .topbar .authbtn, body.divulga #aa-login, body.divulga #login-open, body.divulga .auth-area{display:none !important}
+  body.divulga #auth-overlay{display:none !important}
+  body.divulga .hero{display:none !important}
+  body.divulga .bottomnav button:not([data-tab-btn="politica"]){display:none !important}
+  @media (max-width:640px){
+    body.divulga .live-banner{flex-direction:column;align-items:flex-start}
+    body.divulga .pol-card{padding:14px}
+  }
+
 </style>
 </head>
 <body>
@@ -1213,6 +1225,11 @@
   <!-- ABA: POLÍTICA -->
   <section class="blk" id="politica" data-panel="politica" role="tabpanel" hidden aria-label="Política">
     <div class="live-banner"><b>🔴 AO VIVO · Apuração 2º turno</b><span>Fonte oficial: TSE · Enquete da comunidade é separada, abaixo</span><span id="live-clock"></span><button type="button" class="btn primary" id="copy-politica-link" style="background:#fff;color:#0B3D91">🔗 Copiar link da Política</button></div>
+    <div class="pol-card" id="apuracao-visual" style="margin-bottom:14px">
+        <h3>📊 Apuração — Lula x Flávio, ao vivo no Rec Conectado</h3>
+        <p class="sub" style="margin:0 0 12px">Abaixo, a enquete da comunidade, atualizada em tempo real aqui no site — sem sair da página e sem login. Os números oficiais do TSE aparecem no painel oficial logo abaixo, assim que a parcial for carregada.</p>
+        <p><a class="btn primary" href="#enquete">Ver quem está na frente e votar ↓</a></p>
+      </div>
     <div class="section-head"><h2>Política · Hoje é dia de decisão</h2><p>Eleições 2026 · 2º turno, hoje<br>Fontes: TSE</p></div>
 
     <div class="pol-hero">
@@ -1557,6 +1574,7 @@
     try{ var q=new URLSearchParams(window.location.search); if(q.get('tab')) want=q.get('tab'); }catch(e){}
     if(!want && window.location.hash){ want=window.location.hash.replace('#',''); }
     if(want && document.querySelector('[data-tab-btn="'+want+'"]')){ selectTab(want); setTimeout(function(){ window.scrollTo({top:0,behavior:'auto'}); },50); }
+    try{ var qq=new URLSearchParams(window.location.search); if(qq.get('modo')==='politica' || qq.get('divulga')==='1'){ document.body.classList.add('divulga'); selectTab('politica'); } }catch(e){}
   })();
 
   /* ============ AVATARES PRONTOS ============ */
@@ -2001,7 +2019,7 @@
         if(state.user){ if(!state.profile){ castVote(); return; } castVote(); return; }
         /* Visitante: tenta voto anônimo (sem conta, sem senha). Se o Firebase não tiver Anônimo ativado, cai para o login normal. */
         if(auth && auth.signInAnonymously){
-          auth.signInAnonymously().then(function(){ setTimeout(castVote, 300); }).catch(function(){ if(!requireLogin()) return; });
+          auth.signInAnonymously().then(function(){ setTimeout(castVote, 300); }).catch(function(){ if(document.body.classList.contains('divulga')){ return; } if(!requireLogin()) return; });
         } else { if(!requireLogin()) return; }
       });
     });
