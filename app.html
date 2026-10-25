@@ -749,6 +749,16 @@ button[aria-selected="true"] .ic{animation:iosPop .45s cubic-bezier(.34,1.8,.64,
   .topbar,.bottomnav,#apuracao-visual{backdrop-filter:blur(6px) saturate(180%) brightness(1.08) url('#liquid') !important;-webkit-backdrop-filter:blur(6px) saturate(180%) brightness(1.08)}
 }
 .topbar,.bottomnav{box-shadow:0 8px 32px rgba(0,0,0,0.28),inset 0 1px 1px rgba(255,255,255,0.5),inset 0 -8px 20px rgba(255,255,255,0.06),inset 0 0 0 1px rgba(255,255,255,0.13) !important}
+
+@media (min-width:761px){
+  /* Computador: topo em duas linhas, sem pílula flutuante espremida */
+  .topbar{position:sticky;top:0;margin:0;border-radius:0;border-left:none;border-right:none;border-top:none;border-bottom:1px solid rgba(255,255,255,0.2);padding:12px 24px 8px;flex-wrap:wrap;gap:10px}
+  .topbar .tabs{order:3;flex:1 1 100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;background:transparent !important;border:none !important;box-shadow:none !important;backdrop-filter:none !important;padding:4px 0 2px;border-radius:0 !important}
+  .topbar .tabs::-webkit-scrollbar{display:none}
+  .topbar .tabbtn{flex:0 0 auto;white-space:nowrap;background:rgba(255,255,255,0.12) !important;border:1px solid rgba(255,255,255,0.25) !important;color:#fff !important}
+  .topbar .tabbtn[aria-selected="true"]{background:#D9F22A !important;border-color:#D9F22A !important;color:#111827 !important}
+  .hero{margin-top:0;border-radius:0 0 28px 28px}
+}
 </style>
 </head>
 <body>
