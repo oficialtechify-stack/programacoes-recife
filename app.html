@@ -693,6 +693,26 @@ body{padding-bottom:84px}
   .section-head h2{font-size:24px}
 }
 .tabbtn svg{width:20px;height:20px}
+
+@media (max-width:760px){
+  /* Política no celular: nada estoura a tela */
+  #apuracao-visual{padding:14px;overflow:hidden}
+  #apuracao-visual h3{font-size:20px;line-height:1.25}
+  #tse-placar-row{flex-direction:column}
+  #tse-placar-row>div{width:100%;box-sizing:border-box}
+  #tse-placar-row img{width:60px !important;height:60px !important}
+  #tse-faltam{font-size:16px !important;line-height:1.3}
+  #tse-onde-pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}
+  #tse-onde-pills::-webkit-scrollbar{display:none}
+  #tse-onde-pills button{flex:0 0 auto}
+  #tse-mapa{grid-template-columns:repeat(9,1fr) !important;gap:3px;max-width:100%}
+  #tse-mapa button{padding:8px 1px !important;font-size:12px}
+  #tse-estados button{width:100%;box-sizing:border-box;text-align:left;white-space:normal}
+  #tse-linha{font-size:12px;overflow-wrap:anywhere}
+  #tse-slider{width:140px !important}
+  .live-banner{padding:12px 14px}
+  .pol-hero,.pol-grid{overflow:hidden}
+}
 </style>
 </head>
 <body>
