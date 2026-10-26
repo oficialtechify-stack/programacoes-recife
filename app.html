@@ -805,6 +805,10 @@ img,video,iframe{max-width:100%}
   .wrap{padding-left:12px;padding-right:12px}
   [data-panel] .pol-card,[data-panel] .tech-card,[data-panel] .event{padding-left:14px;padding-right:14px}
 }
+
+/* Portão de login: sem conta, não navega — criar conta só na landing */
+body.gate #auth-overlay{display:flex !important}
+body.gate #auth-close{display:none !important}
 </style>
 </head>
 <body>
@@ -3475,9 +3479,12 @@ img,video,iframe{max-width:100%}
         db.collection('votes').doc(user.uid).set({choice: ch, handle: 'visitante', updatedAt: firebase.firestore.FieldValue.serverTimestamp()}).then(function(){ window.pendingVoteChoice = null; }).catch(function(){});
       }
       if(!user){
+        document.body.classList.add('gate');
         renderAuthArea(); renderAllComposers(); renderPoll(); socialOnAuth();
+        openAuth('login');
         return;
       }
+      document.body.classList.remove('gate');
       db.collection('profiles').doc(user.uid).get().then(function(doc){
         if(doc.exists){
           var v = doc.data();
