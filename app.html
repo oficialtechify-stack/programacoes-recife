@@ -792,6 +792,19 @@ button[aria-selected="true"] .ic{animation:iosPop .45s cubic-bezier(.34,1.8,.64,
 [data-panel] .pol-card p,[data-panel] .tech-card p,[data-panel] .event p,[data-panel] .plan p,[data-panel] .wx-card p,[data-panel] .pol-card li,[data-panel] .tech-card li{color:rgba(255,255,255,0.85) !important}
 [data-panel] .pol-card .sub,[data-panel] .tech-card .sub,[data-panel] .event .sub{color:rgba(255,255,255,0.65) !important}
 [data-panel] .pol-card>img,[data-panel] .tech-card>img,[data-panel] .event>img{width:100%;height:180px;object-fit:cover;display:block;border-radius:20px 20px 0 0}
+
+/* Trava rolagem lateral: nada pode passar da largura da tela */
+html,body{overflow-x:clip;max-width:100%}
+body{position:relative}
+.wrap,[data-panel]{min-width:0;overflow-x:clip}
+img,video,iframe{max-width:100%}
+.pol-card,.tech-card,.event,.plan,.wx-card,.news-card,.poll{min-width:0;overflow-wrap:break-word;word-break:break-word}
+#tse-mapa,#tse-onde-pills,.tabs,.bottomnav{max-width:100%}
+.topbar{max-width:calc(100vw - 24px)}
+@media (max-width:760px){
+  .wrap{padding-left:12px;padding-right:12px}
+  [data-panel] .pol-card,[data-panel] .tech-card,[data-panel] .event{padding-left:14px;padding-right:14px}
+}
 </style>
 </head>
 <body>
