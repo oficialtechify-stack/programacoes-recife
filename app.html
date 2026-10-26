@@ -1782,7 +1782,7 @@ body.gate #auth-close{display:none !important}
   function hasProfile(){ return !!(state.user && state.profile); }
   function requireLogin(){
     if(!fbOK){ openAuth('login'); showError('login', 'O serviço de contas não carregou. Confira sua conexão e recarregue a página.'); return false; }
-    if(!state.user){ window.location.href='index.html'; return false; }
+    if(!state.user){ window.location.href='index.html#criar-conta'; return false; }
     if(!state.profile){ openAuth('profile'); return false; }
     return true;
   }
@@ -1802,9 +1802,9 @@ body.gate #auth-close{display:none !important}
   $('auth-close').addEventListener('click', closeAuth);
   overlay.addEventListener('click', function(e){ if(e.target === overlay) closeAuth(); });
   var _ts=$('to-signup'); if(_ts){ _ts.addEventListener('click', function(){ window.location.href='index.html#criar-conta'; }); }
-  $('to-login').addEventListener('click', function(){ window.location.href='index.html'; });
+  $('to-login').addEventListener('click', function(){ window.location.href='index.html#criar-conta'; });
   var loginOpen = $('login-open');
-  if(loginOpen) loginOpen.addEventListener('click', function(){ window.location.href='index.html'; });
+  if(loginOpen) loginOpen.addEventListener('click', function(){ window.location.href='index.html#criar-conta'; });
 
   function showError(view, msg){
     var el = $(view + '-error'); if(!el) return;
@@ -3481,7 +3481,7 @@ body.gate #auth-close{display:none !important}
       if(!user){
         document.body.classList.add('gate');
         renderAuthArea(); renderAllComposers(); renderPoll(); socialOnAuth();
-        window.location.href='index.html';
+        window.location.href='index.html#criar-conta';
         return;
       }
       document.body.classList.remove('gate');
